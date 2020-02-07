@@ -31,17 +31,10 @@ Then using the commands:
 
 * 0 noir
 * 1 blanc
-* 2 beige
-* 3 rose
-* 4 gris
-* 5 gris fonce
-* 6 jaune
-* 7 orange
-* 8 rouge
-* 9 marron
-* 10 marron fonce
-* 11 violet
-* 12 bleu
-* 13 bleu fonce
-* 14 vert
-* 15 vert fonce
+* 2 jaune
+* 3 orange
+* 4 rouge
+* 5 violet
+* 6 bleu clair
+* 7 bleu
+* 8 vert

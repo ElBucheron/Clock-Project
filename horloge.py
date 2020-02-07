@@ -36,12 +36,13 @@ NEUF = [[6,6,6,6,6],[6,0,6,0,6],[6,6,6,0,6]]
 CHIFFRE = [ZERO,UN,DEUX,TROIS,QUATRE,CINQ,SIX,SEPT,HUIT,NEUF]
 
 #TABLEAU = [[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,7,7,0,0,0],[5,0,0,7,7,7,7,0],[5,6,0,0,0,0,6,6],[0,7,6,6,8,6,7,7],[0,0,6,0,6,7,6,9],[0,0,6,6,6,7,7,9],[0,0,6,6,6,7,6,7],[5,7,7,0,7,0,0,0]]
-TABLEAU = [[0,0,0,7,7,0,0,0],[5,0,0,7,7,7,7,0],[5,6,0,0,0,0,6,6],[0,7,6,6,8,6,7,7],[0,0,6,0,6,7,6,9],[0,0,6,6,6,7,7,9],[0,0,6,6,6,7,6,7],[5,7,7,0,7,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0]]
 
-#             noir        blanc            beige           rose            gris        gris fonce       jaune          orange        rouge      marron     marron fonce     violet        bleu       bleu fonce   vert        vert fonce
-COULEURS = [(0, 0, 0),(255, 255, 255),(250, 215, 160),(241, 148, 138),(192, 192, 192),(80, 80, 80),(250, 121, 33),(255, 58, 0),(255, 0, 0),(90, 10, 10),(110, 44, 0),(128, 0, 128),(0, 255, 255),(0, 0, 255),(0, 0, 255),(0, 128, 0)]
+TABLEAU = []
 
-def horloge(pixels, color):
+#             noir        blanc          jaune          orange        rouge      violet        bleu       bleu fonce     vert
+COULEURS = [(0, 0, 0),(255, 255, 255),(250, 121, 33),(255, 58, 0),(255, 0, 0),(128, 0, 128),(0, 255, 255),(0, 0, 255),(0, 128, 0)]
+
+def horloge(pixels):
     "Affichage de l'heure"
     tz = pendulum.timezone('Europe/Paris')
     heure = dt.datetime.now(tz).hour
@@ -63,7 +64,6 @@ def horloge(pixels, color):
     #print("Heure:", afficheHeure)
 
     global TABLEAU
-    #global NEWTABLEAU
 
     coord = 14
     for k in range(4):
@@ -83,34 +83,23 @@ def horloge(pixels, color):
             coord = coord + 2
         else:
             coord = coord + 4
-    #print("New: ", NEWTABLEAU, id(NEWTABLEAU))
-    #print("Old: ", TABLEAU, id(TABLEAU))
-    tableauVersLEDS(pixels, color)
+    tableauVersLEDS(pixels)
 
 
 
-def tableauVersLEDS(pixels, color):
+def tableauVersLEDS(pixels):
     global TABLEAU
     global COULEURS
-    #global NEWTABLEAU
     i = 0
     led = 0
     while i < 31:
         for j in reversed(range(8)):
-            #if (NEWTABLEAU[i][j] != 0):
             pixels[led] = COULEURS[TABLEAU[i][j]]
-            #elif(TABLEAU[i][j] != 0):
-                #print("LED ", str(led), " eteinte")
-            #    pixels[led] = (0, 0, 0)
             led = led + 1
         i = i + 1
 
         for j in range(8):
-            #if (NEWTABLEAU[i][j] == 1):
             pixels[led] = COULEURS[TABLEAU[i][j]]
-            #elif(TABLEAU[i][j] == 1):
-                #print("LED ", str(led), " eteinte")
-            #    pixels[led] = (0, 0, 0)
             led = led + 1
         i = i + 1
 
@@ -120,6 +109,7 @@ def initTableau():
     print("Reinitialisation du tableau...")
     global TABLEAU
     TABLEAU = [[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0]]
+    
     pixels.fill((0, 0, 0))
     pixels.show()
 
@@ -153,7 +143,6 @@ if(__name__ == '__main__'):
     try:
         print("[!] Press ctrl-c to exit")
 
-        #couleurs = [(12, 71, 103), (250, 121, 33), (254, 153, 32), (185, 164, 76), (86, 110, 61)]
         initTableau()
         initBackground()
 
@@ -166,7 +155,7 @@ if(__name__ == '__main__'):
                 if(minutesNow == 0):
                     initBackground()
 
-                horloge(pixels, (250, 121, 33))
+                horloge(pixels)
                 changeHeure = minutesNow
             time.sleep(1)
 
