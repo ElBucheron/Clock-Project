@@ -39,7 +39,7 @@ CHIFFRE = [ZERO,UN,DEUX,TROIS,QUATRE,CINQ,SIX,SEPT,HUIT,NEUF]
 TABLEAU = [[0,0,0,7,7,0,0,0],[5,0,0,7,7,7,7,0],[5,6,0,0,0,0,6,6],[0,7,6,6,8,6,7,7],[0,0,6,0,6,7,6,9],[0,0,6,6,6,7,7,9],[0,0,6,6,6,7,6,7],[5,7,7,0,7,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0]]
 
 #             noir        blanc            beige           rose            gris        gris fonce       jaune          orange        rouge      marron     marron fonce     violet        bleu       bleu fonce   vert        vert fonce
-COULEURS = [(0, 0, 0),(255, 255, 255),(250, 215, 160),(241, 148, 138),(192, 192, 192),(128, 128, 128),(250, 121, 33),(255, 58, 0),(255, 0, 0),(128, 0, 0),(110, 44, 0),(128, 0, 128),(0, 255, 255),(0, 0, 255),(0, 0, 255),(0, 128, 0)]
+COULEURS = [(0, 0, 0),(255, 255, 255),(250, 215, 160),(241, 148, 138),(192, 192, 192),(80, 80, 80),(250, 121, 33),(255, 58, 0),(255, 0, 0),(90, 10, 10),(110, 44, 0),(128, 0, 128),(0, 255, 255),(0, 0, 255),(0, 0, 255),(0, 128, 0)]
 
 def horloge(pixels, color):
     "Affichage de l'heure"
@@ -123,20 +123,22 @@ def initTableau():
     pixels.fill((0, 0, 0))
     pixels.show()
 
-def getBackground():
+def initBackground():
     print("Choosing background...")
-    num = str(randrange(1,5))
+    num = str(randrange(1,6))
     
-    f = open("Backgrounds/" + num + ".txt", "r")
+    f = open("/root/Clock-Project/Backgrounds/" + num + ".txt", "r")
 
     for idx, line in enumerate(f):
-        #Removing \n
-        line = line[:-1]
-        #Reversing the string
-        line = line[::-1]
-        for idx2 in range(len(TABLEAU)):
-            TABLEAU[idx2][idx] = int(line[idx2])
-
+        if(line[0] == '#'):
+            continue
+        else:
+            #Removing \n
+            line = line[:-1]
+            #Reversing the string
+            line = line[::-1]
+            for idx2 in range(len(TABLEAU)):
+                TABLEAU[idx2][idx-1] = int(line[idx2])
     f.close()
     
 def terminateProcess(signalNumber, frame):
@@ -153,19 +155,18 @@ if(__name__ == '__main__'):
 
         #couleurs = [(12, 71, 103), (250, 121, 33), (254, 153, 32), (185, 164, 76), (86, 110, 61)]
         initTableau()
-        getBackground()
+        initBackground()
 
         changeHeure = 0
         while True:
             minutes = dt.datetime.now().minute
             minutesNow = minutes % 10
 
-            if (minutesNow != changeHeure):
-                #print("Affichage de l'heure...")
-                #initTableau()
-                #time.sleep(1)
-                #chooser = random.randrange(0, 4)
-                horloge(pixels, (250, 121, 33)) #(12, 71, 103) / (250, 121, 33) / (254, 153, 32) / (185, 164, 76) / (86, 110, 61)
+            if(minutesNow != changeHeure):
+                if(minutesNow == 0):
+                    initBackground()
+
+                horloge(pixels, (250, 121, 33))
                 changeHeure = minutesNow
             time.sleep(1)
 
