@@ -40,7 +40,7 @@ CHIFFRE = [ZERO,UN,DEUX,TROIS,QUATRE,CINQ,SIX,SEPT,HUIT,NEUF]
 TABLEAU = []
 
 #             noir        blanc          jaune          orange        rouge      violet        bleu       bleu fonce     vert
-COULEURS = [(0, 0, 0),(255, 255, 255),(250, 121, 33),(255, 58, 0),(255, 0, 0),(128, 0, 128),(0, 255, 255),(0, 0, 255),(0, 128, 0)]
+COULEURS = [(0, 0, 0),(55, 55, 55),(250, 121, 33),(255, 58, 0),(255, 0, 0),(128, 0, 128),(0, 255, 255),(0, 0, 255),(0, 128, 0)]
 
 def horloge(pixels):
     "Affichage de l'heure"

@@ -4,6 +4,7 @@
 
 - Raspberry pi
 - Led pannel (8x32)
+- [Adafruit](https://learn.adafruit.com/adafruit-neopixel-uberguide/python-circuitpython)
 
 ## To add as a startup service
 In /lib/systemd/system, create a file `horloge.service` with:
