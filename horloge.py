@@ -40,7 +40,7 @@ TABLEAUBIS = []
 showing = 'TABLEAU'
 
 #             noir        blanc          jaune          orange        rouge      violet        bleu       bleu fonce     vert
-COULEURS = [(0, 0, 0),(55, 55, 55),(250, 121, 33),(255, 58, 0),(155, 0, 0),(128, 0, 128),(0, 155, 155),(0, 0, 155),(0, 128, 0)]
+COULEURS = [(0, 0, 0),(55, 55, 55),(250, 121, 33),(155, 58, 0),(155, 0, 0),(128, 0, 128),(0, 155, 155),(0, 0, 155),(0, 128, 0)]
 
 def horloge():
     "Affichage de l'heure"
