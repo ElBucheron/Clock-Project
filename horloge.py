@@ -35,14 +35,14 @@ HUIT = [[2,2,2,2,2],[2,0,2,0,2],[2,2,2,2,2]]
 NEUF = [[2,2,2,2,2],[2,0,2,0,2],[2,2,2,0,2]]
 CHIFFRE = [ZERO,UN,DEUX,TROIS,QUATRE,CINQ,SIX,SEPT,HUIT,NEUF]
 
-#TABLEAU = [[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,7,7,0,0,0],[5,0,0,7,7,7,7,0],[5,6,0,0,0,0,6,6],[0,7,6,6,8,6,7,7],[0,0,6,0,6,7,6,9],[0,0,6,6,6,7,7,9],[0,0,6,6,6,7,6,7],[5,7,7,0,7,0,0,0]]
-
 TABLEAU = []
+TABLEAUBIS = []
+showing = 'TABLEAU'
 
 #             noir        blanc          jaune          orange        rouge      violet        bleu       bleu fonce     vert
-COULEURS = [(0, 0, 0),(55, 55, 55),(250, 121, 33),(255, 58, 0),(255, 0, 0),(128, 0, 128),(0, 255, 255),(0, 0, 255),(0, 128, 0)]
+COULEURS = [(0, 0, 0),(55, 55, 55),(250, 121, 33),(255, 58, 0),(155, 0, 0),(128, 0, 128),(0, 155, 155),(0, 0, 155),(0, 128, 0)]
 
-def horloge(pixels):
+def horloge():
     "Affichage de l'heure"
     tz = pendulum.timezone('Europe/Paris')
     heure = dt.datetime.now(tz).hour
@@ -73,6 +73,7 @@ def horloge(pixels):
         for i in range(coord, coord+3):
             for j in range(1, 6):
                 TABLEAU[i][j] = afficheCiffre[x][y]
+                TABLEAUBIS[i][j] = afficheCiffre[x][y]
                 y = y + 1
             x = x + 1
             y = 0
@@ -80,42 +81,82 @@ def horloge(pixels):
             coord = coord + 4
             TABLEAU[coord][2] = 2
             TABLEAU[coord][4] = 2
+            TABLEAUBIS[coord][2] = 2
+            TABLEAUBIS[coord][4] = 2
             coord = coord + 2
         else:
             coord = coord + 4
-    tableauVersLEDS(pixels)
 
 
+def blinking():
+    global showing
 
-def tableauVersLEDS(pixels):
-    global TABLEAU
+    if(showing == 'TABLEAU'):
+        showing = 'TABLEAUBIS'
+    else:
+        showing = 'TABLEAU'
+    tableauVersLEDS()
+    pixels.show()
+
+
+def tableauVersLEDS():
     global COULEURS
+
+    if(showing == 'TABLEAU'):
+        tab = TABLEAU
+    else:
+        tab = TABLEAUBIS
+
     i = 0
     led = 0
     while i < 31:
         for j in reversed(range(8)):
-            pixels[led] = COULEURS[TABLEAU[i][j]]
+            pixels[led] = COULEURS[tab[i][j]]
             led = led + 1
         i = i + 1
 
         for j in range(8):
-            pixels[led] = COULEURS[TABLEAU[i][j]]
+            pixels[led] = COULEURS[tab[i][j]]
             led = led + 1
         i = i + 1
 
     pixels.show()
 
+
+def transition():
+    k = 0
+    while k < 31:
+        i = 0
+        led = 0
+        while i < 31:
+            for j in range(8):
+                if(i == 30):
+                    pixels[led] = (0,0,0) 
+                else:
+                    pixels[led] = pixels[led + 16] 
+                led = led + 1
+            i = i + 1
+        pixels.show()
+        time.sleep(0.2)
+        k = k + 1
+
+
 def initTableau():
     print("Reinitialisation du tableau...")
     global TABLEAU
+    global TABLEAUBIS
+
     TABLEAU = [[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0]]
+    TABLEAUBIS = [[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0]]
+
     
     pixels.fill((0, 0, 0))
     pixels.show()
 
+
 def initBackground():
     print("Choosing background...")
-    num = str(randrange(1,6))
+    num = str(randrange(1,5))
     
     f = open("/root/Clock-Project/Backgrounds/" + num + ".txt", "r")
 
@@ -127,14 +168,21 @@ def initBackground():
             line = line[:-1]
             #Reversing the string
             line = line[::-1]
-            for idx2 in range(len(TABLEAU)):
-                TABLEAU[idx2][idx-1] = int(line[idx2])
+            if(idx <= 8):
+                for idx2 in range(len(TABLEAU)):
+                    TABLEAU[idx2][idx-1] = int(line[idx2])
+            else:
+                for idx2 in range(len(TABLEAUBIS)):
+                    TABLEAUBIS[idx2][(idx-2)%8] = int(line[idx2])
+
     f.close()
-    
+
+
 def terminateProcess(signalNumber, frame):
     pixels.fill((0, 0, 0))
     pixels.show()
     exit(0)
+
 
 if(__name__ == '__main__'):
 
@@ -155,8 +203,11 @@ if(__name__ == '__main__'):
                 if(minutesNow == 0):
                     initBackground()
 
-                horloge(pixels)
+                horloge()
+                tableauVersLEDS()
                 changeHeure = minutesNow
+            
+            blinking()
             time.sleep(1)
 
     except KeyboardInterrupt:
