@@ -7,6 +7,7 @@ import pendulum
 import math
 import signal
 from random import randrange
+from cozy_fire import fire
 
 # Choose an open pin connected to the Data In of the NeoPixel strip, i.e. board.D18
 # NeoPixels must be connected to D10, D12, D18 or D21 to work.
@@ -73,7 +74,7 @@ def horloge():
         for i in range(coord, coord+3):
             for j in range(1, 6):
                 TABLEAU[i][j] = afficheCiffre[x][y]
-                TABLEAUBIS[i][j] = afficheCiffre[x][y]
+                #TABLEAUBIS[i][j] = afficheCiffre[x][y]
                 y = y + 1
             x = x + 1
             y = 0
@@ -81,8 +82,8 @@ def horloge():
             coord = coord + 4
             TABLEAU[coord][2] = 2
             TABLEAU[coord][4] = 2
-            TABLEAUBIS[coord][2] = 2
-            TABLEAUBIS[coord][4] = 2
+            #TABLEAUBIS[coord][2] = 2
+            #TABLEAUBIS[coord][4] = 2
             coord = coord + 2
         else:
             coord = coord + 4
@@ -102,10 +103,10 @@ def blinking():
 def tableauVersLEDS():
     global COULEURS
 
-    if(showing == 'TABLEAU'):
-        tab = TABLEAU
-    else:
-        tab = TABLEAUBIS
+    #if(showing == 'TABLEAU'):
+    tab = TABLEAU
+    #else:
+        #tab = TABLEAUBIS
 
     i = 0
     led = 0
@@ -123,37 +124,55 @@ def tableauVersLEDS():
     pixels.show()
 
 
-def transition():
-    k = 0
-    while k < 31:
-        i = 0
-        led = 0
-        while i < 31:
-            for j in range(8):
-                if(i == 30):
-                    pixels[led] = (0,0,0) 
-                else:
-                    pixels[led] = pixels[led + 16] 
-                led = led + 1
-            i = i + 1
-        pixels.show()
-        time.sleep(0.2)
-        k = k + 1
-
-
-def initTableau():
-    print("Reinitialisation du tableau...")
+def snow():
     global TABLEAU
     global TABLEAUBIS
 
+    initTableau()
+    horloge()
+    
+    removeLine = 0
+    for i in range(32):
+        if(TABLEAUBIS[i][7] == 0):
+            removeLine = removeLine + 1
+        for j in reversed(range(1,8)):
+            #if(TABLEAUBIS[i][j] == 0):
+            if(TABLEAUBIS[i][j-1] != 0):
+                TABLEAUBIS[i][j] = TABLEAUBIS[i][j-1]
+                TABLEAUBIS[i][j-1] = 0
+    
+    if(removeLine <= 0):
+        for i in range(32):
+            for j in reversed(range(1,8)):
+                TABLEAUBIS[i][j] = TABLEAUBIS[i][j-1]
+            TABLEAUBIS[i][0] = 0
+    
+    
+    if(randrange(100) < 5):
+        num = randrange(32)
+        TABLEAUBIS[num][0] = 6
+    
+    for i in range(32):
+        for j in range(8):
+            if(TABLEAU[i][j] == 0):
+                TABLEAU[i][j] = TABLEAUBIS[i][j]
+
+
+
+    tableauVersLEDS()
+
+
+def initTableau():
+    global TABLEAU
+
     TABLEAU = [[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0]]
+
+def initTableaubis():
+    global TABLEAUBIS
+
     TABLEAUBIS = [[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0]]
 
     
-    pixels.fill((0, 0, 0))
-    pixels.show()
-
-
 def initBackground():
     print("Choosing background...")
     num = str(randrange(1,5))
@@ -191,24 +210,24 @@ if(__name__ == '__main__'):
     try:
         print("[!] Press ctrl-c to exit")
 
+        print("Reinitialisation des tableaux...")
         initTableau()
-        initBackground()
+        initTableaubis()
+        #initBackground()
 
         changeHeure = 0
         while True:
-            minutes = dt.datetime.now().minute
-            minutesNow = minutes % 10
+            #minutes = dt.datetime.now().minute
+            #minutesNow = minutes % 10
 
-            if(minutesNow != changeHeure):
-                if(minutesNow == 0):
-                    initBackground()
+            #if(minutesNow != changeHeure):
+                #if(minutesNow == 0):
+                    #initTableaubis()
+                #changeHeure = minutesNow
 
-                horloge()
-                tableauVersLEDS()
-                changeHeure = minutesNow
-            
-            blinking()
-            time.sleep(1)
+            snow()
+            #blinking()
+            time.sleep(0.2)
 
     except KeyboardInterrupt:
         terminateProcess(0,0)
