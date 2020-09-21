@@ -47,6 +47,9 @@ def hex_to_rgb(value):
     return tuple(int(value[i:i+lv//3], 16) for i in range(0, lv, lv//3))
 
 def horloge():
+    global default
+    global TABLEAU
+
     "Affichage de l'heure"
     tz = pendulum.timezone('Europe/Paris')
     heure = dt.datetime.now(tz).hour
@@ -66,8 +69,6 @@ def horloge():
 
     afficheHeure = [minute2, minute1, heure2, heure1]
     #print("Heure:", afficheHeure)
-
-    global TABLEAU
 
     coord = 14
     for k in range(4):
@@ -168,19 +169,23 @@ def snow():
 
 def initTableau():
     global TABLEAU
-    
-    for tab in TABLEAU:
-    	tab = [default[0],default[0],default[0],default[0],default[0],default[0],default[0],default[0]]
+    global default
+   
+    TABLEAU = []
+    for i in range(32):
+    	TABLEAU.append([default[0],default[0],default[0],default[0],default[0],default[0],default[0],default[0]])
 
     #TABLEAU = [[default[0],default[0],default[0],default[0],default[0],default[0],default[0],default[0]],[default[0],default[0],default[0],default[0],default[0],default[0],default[0],default[0]],[default[0],default[0],default[0],default[0],default[0],default[0],default[0],default[0]],[default[0],default[0],default[0],default[0],default[0],default[0],default[0],default[0]],[default[0],default[0],default[0],default[0],default[0],default[0],default[0],default[0]],[default[0],default[0],default[0],default[0],default[0],default[0],default[0],default[0]],[default[0],default[0],default[0],default[0],default[0],default[0],default[0],default[0]],[default[0],default[0],default[0],default[0],default[0],default[0],default[0],default[0]],[default[0],default[0],default[0],default[0],default[0],default[0],default[0],default[0]],[default[0],default[0],default[0],default[0],default[0],default[0],default[0],default[0]],[default[0],default[0],default[0],default[0],default[0],default[0],default[0],default[0]],[default[0],default[0],default[0],default[0],default[0],default[0],default[0],default[0]],[default[0],default[0],default[0],default[0],default[0],default[0],default[0],default[0]],[default[0],default[0],default[0],default[0],default[0],default[0],default[0],default[0]],[default[0],default[0],default[0],default[0],default[0],default[0],default[0],default[0]],[default[0],default[0],default[0],default[0],default[0],default[0],default[0],default[0]],[default[0],default[0],default[0],default[0],default[0],default[0],default[0],default[0]],[default[0],default[0],default[0],default[0],default[0],default[0],default[0],default[0]],[default[0],default[0],default[0],default[0],default[0],default[0],default[0],default[0]],[default[0],default[0],default[0],default[0],default[0],default[0],default[0],default[0]],[default[0],default[0],default[0],default[0],default[0],default[0],default[0],default[0]],[default[0],default[0],default[0],default[0],default[0],default[0],default[0],default[0]],[default[0],default[0],default[0],default[0],default[0],default[0],default[0],default[0]],[default[0],default[0],default[0],default[0],default[0],default[0],default[0],default[0]],[default[0],default[0],default[0],default[0],default[0],default[0],default[0],default[0]],[default[0],default[0],default[0],default[0],default[0],default[0],default[0],default[0]],[default[0],default[0],default[0],default[0],default[0],default[0],default[0],default[0]],[default[0],default[0],default[0],default[0],default[0],default[0],default[0],default[0]],[default[0],default[0],default[0],default[0],default[0],default[0],default[0],default[0]],[default[0],default[0],default[0],default[0],default[0],default[0],default[0],default[0]],[default[0],default[0],default[0],default[0],default[0],default[0],default[0],default[0]],[default[0],default[0],default[0],default[0],default[0],default[0],default[0],default[0]]]
     
 
 def initTableaubis():
     global TABLEAUBIS
+    global default
     
-    for tab in TABLEAUBIS:
-    	tab = [default[0],default[0],default[0],default[0],default[0],default[0],default[0],default[0]]
-
+    TABLEAUBIS = []
+    for i in range(32):
+    	TABLEAUBIS.append([default[0],default[0],default[0],default[0],default[0],default[0],default[0],default[0]])
+    
     #TABLEAUBIS = [[default[0],default[0],default[0],default[0],default[0],default[0],default[0],default[0]],[default[0],default[0],default[0],default[0],default[0],default[0],default[0],default[0]],[default[0],default[0],default[0],default[0],default[0],default[0],default[0],default[0]],[default[0],default[0],default[0],default[0],default[0],default[0],default[0],default[0]],[default[0],default[0],default[0],default[0],default[0],default[0],default[0],default[0]],[default[0],default[0],default[0],default[0],default[0],default[0],default[0],default[0]],[default[0],default[0],default[0],default[0],default[0],default[0],default[0],default[0]],[default[0],default[0],default[0],default[0],default[0],default[0],default[0],default[0]],[default[0],default[0],default[0],default[0],default[0],default[0],default[0],default[0]],[default[0],default[0],default[0],default[0],default[0],default[0],default[0],default[0]],[default[0],default[0],default[0],default[0],default[0],default[0],default[0],default[0]],[default[0],default[0],default[0],default[0],default[0],default[0],default[0],default[0]],[default[0],default[0],default[0],default[0],default[0],default[0],default[0],default[0]],[default[0],default[0],default[0],default[0],default[0],default[0],default[0],default[0]],[default[0],default[0],default[0],default[0],default[0],default[0],default[0],default[0]],[default[0],default[0],default[0],default[0],default[0],default[0],default[0],default[0]],[default[0],default[0],default[0],default[0],default[0],default[0],default[0],default[0]],[default[0],default[0],default[0],default[0],default[0],default[0],default[0],default[0]],[default[0],default[0],default[0],default[0],default[0],default[0],default[0],default[0]],[default[0],default[0],default[0],default[0],default[0],default[0],default[0],default[0]],[default[0],default[0],default[0],default[0],default[0],default[0],default[0],default[0]],[default[0],default[0],default[0],default[0],default[0],default[0],default[0],default[0]],[default[0],default[0],default[0],default[0],default[0],default[0],default[0],default[0]],[default[0],default[0],default[0],default[0],default[0],default[0],default[0],default[0]],[default[0],default[0],default[0],default[0],default[0],default[0],default[0],default[0]],[default[0],default[0],default[0],default[0],default[0],default[0],default[0],default[0]],[default[0],default[0],default[0],default[0],default[0],default[0],default[0],default[0]],[default[0],default[0],default[0],default[0],default[0],default[0],default[0],default[0]],[default[0],default[0],default[0],default[0],default[0],default[0],default[0],default[0]],[default[0],default[0],default[0],default[0],default[0],default[0],default[0],default[0]],[default[0],default[0],default[0],default[0],default[0],default[0],default[0],default[0]],[default[0],default[0],default[0],default[0],default[0],default[0],default[0],default[0]]]
 
     
@@ -188,23 +193,17 @@ def initBackground():
     print("Choosing background...")
     #num = str(randrange(1,5))
     
-    f = open("/root/Clock-Project/Backgrounds/" + "2" + ".txt", "r")
+    f = open("/root/Clock-Project/Backgrounds/" + "1" + ".txt", "r")
 
-    for idx, line in enumerate(f):
-        if(line[0] == '#'):
-            continue
-        else:
-            #Removing \n
-            line = line[:-1]
-            #Reversing the string
-            line = line[::-1]
-            if(idx <= 8):
-                for idx2 in range(len(TABLEAU)):
-                    TABLEAU[idx2][idx-1] = int(line[idx2])
-            else:
-                for idx2 in range(len(TABLEAUBIS)):
-                    TABLEAUBIS[idx2][(idx-2)%8] = int(line[idx2])
-
+    idx = 0
+    for line in f:
+        #Removing \n
+        line = line[:-1]
+        pixel = line.split("|")
+        pixel.reverse();
+        for idx2 in reversed(range(len(TABLEAU))):
+            TABLEAU[idx2][idx] = str(pixel[idx2])
+        idx += 1
     f.close()
 
 
@@ -225,7 +224,7 @@ if(__name__ == '__main__'):
         initTableau()
         initTableaubis()
         horloge()
-        #initBackground()
+        initBackground()
 
         changeHeure = 0
         while True:
