@@ -20,7 +20,7 @@ num_pixels = 256
 # For RGBW NeoPixels, simply change the ORDER to RGBW or GRBW.
 ORDER = neopixel.GRB
 
-pixels = neopixel.NeoPixel(pixel_pin, num_pixels, brightness=0.02, auto_write=False,
+pixels = neopixel.NeoPixel(pixel_pin, num_pixels, brightness=0.5, auto_write=False,
                            pixel_order=ORDER)
 
 
@@ -79,7 +79,7 @@ def horloge():
         for i in range(coord, coord+3):
             for j in range(1, 6):
                 TABLEAU[i][j] = afficheCiffre[x][y]
-                #TABLEAUBIS[i][j] = afficheCiffre[x][y]
+                TABLEAUBIS[i][j] = afficheCiffre[x][y]
                 y = y + 1
             x = x + 1
             y = 0
@@ -92,6 +92,8 @@ def horloge():
             coord = coord + 2
         else:
             coord = coord + 4
+    
+    tableauVersLEDS()
 
 
 def blinking():
@@ -102,7 +104,6 @@ def blinking():
     else:
         showing = 'TABLEAU'
     tableauVersLEDS()
-    pixels.show()
 
 
 def tableauVersLEDS():
@@ -187,9 +188,9 @@ def initTableaubis():
     
 def initBackground():
     print("Choosing background...")
-    num = str(randrange(1,5))
+    #num = str(randrange(1,5))
     
-    f = open("/root/Clock-Project/Backgrounds/" + num + ".txt", "r")
+    f = open("/root/Clock-Project/Backgrounds/" + "2" + ".txt", "r")
 
     for idx, line in enumerate(f):
         if(line[0] == '#'):
@@ -225,21 +226,24 @@ if(__name__ == '__main__'):
         print("Reinitialisation des tableaux...")
         initTableau()
         initTableaubis()
+        horloge()
         #initBackground()
 
         changeHeure = 0
         while True:
-            #minutes = dt.datetime.now().minute
-            #minutesNow = minutes % 10
+            minutes = dt.datetime.now().minute
+            minutesNow = minutes % 10
 
-            #if(minutesNow != changeHeure):
+            if(minutesNow != changeHeure):
+                horloge()
                 #if(minutesNow == 0):
                     #initTableaubis()
-                #changeHeure = minutesNow
+                changeHeure = minutesNow
 
-            snow()
-            #blinking()
-            time.sleep(0.2)
+            #snow()
+            blinking()
+            tableauVersLEDS()
+            time.sleep(1)
 
     except KeyboardInterrupt:
         terminateProcess(0,0)
