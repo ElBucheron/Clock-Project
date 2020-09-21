@@ -24,24 +24,29 @@ pixels = neopixel.NeoPixel(pixel_pin, num_pixels, brightness=0.02, auto_write=Fa
                            pixel_order=ORDER)
 
 
-ZERO = [[2,2,2,2,2],[2,0,0,0,2],[2,2,2,2,2]]
-UN = [[0,0,0,0,2],[2,2,2,2,2],[0,2,0,0,2]]
-DEUX = [[2,2,2,0,2],[2,0,2,0,2],[2,0,2,2,2]]
-TROIS = [[2,2,2,2,2],[2,0,2,0,2],[2,0,0,0,2]]
-QUATRE = [[0,2,2,2,2],[0,0,2,0,0],[2,2,2,0,0]]
-CINQ = [[2,0,2,2,2],[2,0,2,0,2],[2,2,2,0,2]]
-SIX = [[2,0,2,2,2],[2,0,2,0,2],[2,2,2,2,2]]
-SEPT = [[2,2,2,2,2],[2,0,0,0,0],[2,0,0,0,0]]
-HUIT = [[2,2,2,2,2],[2,0,2,0,2],[2,2,2,2,2]]
-NEUF = [[2,2,2,2,2],[2,0,2,0,2],[2,2,2,0,2]]
+ZERO = [[led_base,led_base,led_base,led_base,led_base],[led_base,led_off,led_off,led_off,led_base],[led_base,led_base,led_base,led_base,led_base]]
+UN = [[led_off,led_off,led_off,led_off,led_base],[led_base,led_base,led_base,led_base,led_base],[led_off,led_base,led_off,led_off,led_base]]
+DEUX = [[led_base,led_base,led_base,led_off,led_base],[led_base,led_off,led_base,led_off,led_base],[led_base,led_off,led_base,led_base,led_base]]
+TROIS = [[led_base,led_base,led_base,led_base,led_base],[led_base,led_off,led_base,led_off,led_base],[led_base,led_off,led_off,led_off,led_base]]
+QUATRE = [[led_off,led_base,led_base,led_base,led_base],[led_off,led_off,led_base,led_off,led_off],[led_base,led_base,led_base,led_off,led_off]]
+CINQ = [[led_base,led_off,led_base,led_base,led_base],[led_base,led_off,led_base,led_off,led_base],[led_base,led_base,led_base,led_off,led_base]]
+SIX = [[led_base,led_off,led_base,led_base,led_base],[led_base,led_off,led_base,led_off,led_base],[led_base,led_base,led_base,led_base,led_base]]
+SEPT = [[led_base,led_base,led_base,led_base,led_base],[led_base,led_off,led_off,led_off,led_off],[led_base,led_off,led_off,led_off,led_off]]
+HUIT = [[led_base,led_base,led_base,led_base,led_base],[led_base,led_off,led_base,led_off,led_base],[led_base,led_base,led_base,led_base,led_base]]
+NEUF = [[led_base,led_base,led_base,led_base,led_base],[led_base,led_off,led_base,led_off,led_base],[led_base,led_base,led_base,led_off,led_base]]
 CHIFFRE = [ZERO,UN,DEUX,TROIS,QUATRE,CINQ,SIX,SEPT,HUIT,NEUF]
 
 TABLEAU = []
 TABLEAUBIS = []
 showing = 'TABLEAU'
 
-#             noir        blanc          jaune          orange        rouge      violet        bleu       bleu fonce     vert
-COULEURS = [(0, 0, 0),(55, 55, 55),(250, 121, 33),(155, 58, 0),(155, 0, 0),(128, 0, 128),(0, 155, 155),(0, 0, 155),(0, 128, 0)]
+led_off = "#000000"
+led_base = "#FA7921"
+
+def hex_to_rgb(value):
+    value = value.lstrip('#')
+    lv = len(value)
+    return tuple(int(value[i:i+lv//3], 16) for i in range(0, lv, lv//3))
 
 def horloge():
     "Affichage de l'heure"
@@ -80,8 +85,8 @@ def horloge():
             y = 0
         if (k == 1):
             coord = coord + 4
-            TABLEAU[coord][2] = 2
-            TABLEAU[coord][4] = 2
+            TABLEAU[coord][2] = led_base
+            TABLEAU[coord][4] = led_base
             #TABLEAUBIS[coord][2] = 2
             #TABLEAUBIS[coord][4] = 2
             coord = coord + 2
@@ -112,12 +117,12 @@ def tableauVersLEDS():
     led = 0
     while i < 31:
         for j in reversed(range(8)):
-            pixels[led] = COULEURS[tab[i][j]]
+            pixels[led] = hex_to_rgb(tab[i][j])
             led = led + 1
         i = i + 1
 
         for j in range(8):
-            pixels[led] = COULEURS[tab[i][j]]
+            pixels[led] = hex_to_rgb(tab[i][j])
             led = led + 1
         i = i + 1
 
@@ -164,13 +169,20 @@ def snow():
 
 def initTableau():
     global TABLEAU
+    
+    for tab in TABLEAU:
+    	tab = [led_off,led_off,led_off,led_off,led_off,led_off,led_off,led_off]
 
-    TABLEAU = [[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0]]
+    #TABLEAU = [[led_off,led_off,led_off,led_off,led_off,led_off,led_off,led_off],[led_off,led_off,led_off,led_off,led_off,led_off,led_off,led_off],[led_off,led_off,led_off,led_off,led_off,led_off,led_off,led_off],[led_off,led_off,led_off,led_off,led_off,led_off,led_off,led_off],[led_off,led_off,led_off,led_off,led_off,led_off,led_off,led_off],[led_off,led_off,led_off,led_off,led_off,led_off,led_off,led_off],[led_off,led_off,led_off,led_off,led_off,led_off,led_off,led_off],[led_off,led_off,led_off,led_off,led_off,led_off,led_off,led_off],[led_off,led_off,led_off,led_off,led_off,led_off,led_off,led_off],[led_off,led_off,led_off,led_off,led_off,led_off,led_off,led_off],[led_off,led_off,led_off,led_off,led_off,led_off,led_off,led_off],[led_off,led_off,led_off,led_off,led_off,led_off,led_off,led_off],[led_off,led_off,led_off,led_off,led_off,led_off,led_off,led_off],[led_off,led_off,led_off,led_off,led_off,led_off,led_off,led_off],[led_off,led_off,led_off,led_off,led_off,led_off,led_off,led_off],[led_off,led_off,led_off,led_off,led_off,led_off,led_off,led_off],[led_off,led_off,led_off,led_off,led_off,led_off,led_off,led_off],[led_off,led_off,led_off,led_off,led_off,led_off,led_off,led_off],[led_off,led_off,led_off,led_off,led_off,led_off,led_off,led_off],[led_off,led_off,led_off,led_off,led_off,led_off,led_off,led_off],[led_off,led_off,led_off,led_off,led_off,led_off,led_off,led_off],[led_off,led_off,led_off,led_off,led_off,led_off,led_off,led_off],[led_off,led_off,led_off,led_off,led_off,led_off,led_off,led_off],[led_off,led_off,led_off,led_off,led_off,led_off,led_off,led_off],[led_off,led_off,led_off,led_off,led_off,led_off,led_off,led_off],[led_off,led_off,led_off,led_off,led_off,led_off,led_off,led_off],[led_off,led_off,led_off,led_off,led_off,led_off,led_off,led_off],[led_off,led_off,led_off,led_off,led_off,led_off,led_off,led_off],[led_off,led_off,led_off,led_off,led_off,led_off,led_off,led_off],[led_off,led_off,led_off,led_off,led_off,led_off,led_off,led_off],[led_off,led_off,led_off,led_off,led_off,led_off,led_off,led_off],[led_off,led_off,led_off,led_off,led_off,led_off,led_off,led_off]]
+    
 
 def initTableaubis():
     global TABLEAUBIS
+    
+    for tab in TABLEAUBIS:
+    	tab = [led_off,led_off,led_off,led_off,led_off,led_off,led_off,led_off]
 
-    TABLEAUBIS = [[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0]]
+    #TABLEAUBIS = [[led_off,led_off,led_off,led_off,led_off,led_off,led_off,led_off],[led_off,led_off,led_off,led_off,led_off,led_off,led_off,led_off],[led_off,led_off,led_off,led_off,led_off,led_off,led_off,led_off],[led_off,led_off,led_off,led_off,led_off,led_off,led_off,led_off],[led_off,led_off,led_off,led_off,led_off,led_off,led_off,led_off],[led_off,led_off,led_off,led_off,led_off,led_off,led_off,led_off],[led_off,led_off,led_off,led_off,led_off,led_off,led_off,led_off],[led_off,led_off,led_off,led_off,led_off,led_off,led_off,led_off],[led_off,led_off,led_off,led_off,led_off,led_off,led_off,led_off],[led_off,led_off,led_off,led_off,led_off,led_off,led_off,led_off],[led_off,led_off,led_off,led_off,led_off,led_off,led_off,led_off],[led_off,led_off,led_off,led_off,led_off,led_off,led_off,led_off],[led_off,led_off,led_off,led_off,led_off,led_off,led_off,led_off],[led_off,led_off,led_off,led_off,led_off,led_off,led_off,led_off],[led_off,led_off,led_off,led_off,led_off,led_off,led_off,led_off],[led_off,led_off,led_off,led_off,led_off,led_off,led_off,led_off],[led_off,led_off,led_off,led_off,led_off,led_off,led_off,led_off],[led_off,led_off,led_off,led_off,led_off,led_off,led_off,led_off],[led_off,led_off,led_off,led_off,led_off,led_off,led_off,led_off],[led_off,led_off,led_off,led_off,led_off,led_off,led_off,led_off],[led_off,led_off,led_off,led_off,led_off,led_off,led_off,led_off],[led_off,led_off,led_off,led_off,led_off,led_off,led_off,led_off],[led_off,led_off,led_off,led_off,led_off,led_off,led_off,led_off],[led_off,led_off,led_off,led_off,led_off,led_off,led_off,led_off],[led_off,led_off,led_off,led_off,led_off,led_off,led_off,led_off],[led_off,led_off,led_off,led_off,led_off,led_off,led_off,led_off],[led_off,led_off,led_off,led_off,led_off,led_off,led_off,led_off],[led_off,led_off,led_off,led_off,led_off,led_off,led_off,led_off],[led_off,led_off,led_off,led_off,led_off,led_off,led_off,led_off],[led_off,led_off,led_off,led_off,led_off,led_off,led_off,led_off],[led_off,led_off,led_off,led_off,led_off,led_off,led_off,led_off],[led_off,led_off,led_off,led_off,led_off,led_off,led_off,led_off]]
 
     
 def initBackground():
