@@ -23,6 +23,7 @@ ORDER = neopixel.GRB
 pixels = neopixel.NeoPixel(pixel_pin, num_pixels, brightness=0.5, auto_write=False,
                            pixel_order=ORDER)
 
+default = ["#000000", "#FA7921"]
 
 ZERO = [[led_base,led_base,led_base,led_base,led_base],[led_base,led_off,led_off,led_off,led_base],[led_base,led_base,led_base,led_base,led_base]]
 UN = [[led_off,led_off,led_off,led_off,led_base],[led_base,led_base,led_base,led_base,led_base],[led_off,led_base,led_off,led_off,led_base]]
@@ -39,9 +40,6 @@ CHIFFRE = [ZERO,UN,DEUX,TROIS,QUATRE,CINQ,SIX,SEPT,HUIT,NEUF]
 TABLEAU = []
 TABLEAUBIS = []
 showing = 'TABLEAU'
-
-led_off = "#000000"
-led_base = "#FA7921"
 
 def hex_to_rgb(value):
     value = value.lstrip('#')
