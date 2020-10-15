@@ -38,6 +38,9 @@ HUIT = [[default[1],default[1],default[1],default[1],default[1]],[default[1],def
 NEUF = [[default[1],default[1],default[1],default[1],default[1]],[default[1],default[0],default[1],default[0],default[1]],[default[1],default[1],default[1],default[0],default[1]]]
 CHIFFRE = [ZERO,UN,DEUX,TROIS,QUATRE,CINQ,SIX,SEPT,HUIT,NEUF]
 
+PROBA = [16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16]
+CLEARED = True
+
 TABLEAU_LEDS = []
 TABLEAU_SNOW = []
 TABLEAU_HORLOGE = []
@@ -139,32 +142,48 @@ def tableauVersLEDS():
     pixels.show()
 
 
+def removeSnowLine():
+    global TABLEAU_SNOW
+    global PROBA
+    
+    for i in range(32):
+        for j in reversed(range(1,8)):
+            TABLEAU_SNOW[i][j] = TABLEAU_SNOW[i][j-1]
+        TABLEAU_SNOW[i][0] = default[0]
+    for idx, val in enumerate(PROBA):
+        if val < 10:
+            PROBA[idx] += 2
+    
+
+
 def snow():
     global TABLEAU_HORLOGE
     global TABLEAU_SNOW
     global TABLEAU_LEDS
+    global PROBA
+    global CLEARED
 
     initTableauLeds()
 
     removeLine = 0
     for i in range(32):
-        if(TABLEAU_SNOW[i][7] == default[0]):
-            removeLine = removeLine + 1
+        if(TABLEAU_SNOW[i][7] != default[0]):
+            removeLine += 1
         for j in reversed(range(1,8)):
             #if(TABLEAU_SNOW[i][j] == 0):
             if(TABLEAU_SNOW[i][j-1] != default[0] and TABLEAU_SNOW[i][j] == default[0]):
                 TABLEAU_SNOW[i][j] = TABLEAU_SNOW[i][j-1]
                 TABLEAU_SNOW[i][j-1] = default[0]
     
-    if(removeLine <= 3):
-        for i in range(32):
-            for j in reversed(range(1,8)):
-                TABLEAU_SNOW[i][j] = TABLEAU_SNOW[i][j-1]
-            TABLEAU_SNOW[i][0] = default[0]
-    
-    if(randrange(100) < 5):
-        num = randrange(32)
+    if removeLine == 0:
+        CLEARED = True
+
+    #removeSnowLine()
+
+    num = randrange(32)
+    if(randrange(100) < PROBA[num]):
         TABLEAU_SNOW[num][0] = "#00C9FF"
+        PROBA[num] -= 2
     
     for i in range(32):
         for j in range(8):
@@ -248,10 +267,18 @@ if(__name__ == '__main__'):
                 horloge()
                 changeHeure = minutesNow
 
+                if minutesNow == 0:
+                    CLEARED = False
+            
+            if CLEARED == False:
+                removeSnowLine()
+
+
             snow()
             tableauVersLEDS()
             #blinking()
-            time.sleep(uniform(0.1, 0.4))
+            #time.sleep(uniform(0.1, 0.4))
+            time.sleep(0.4)
 
     except KeyboardInterrupt:
         terminateProcess(0,0)
