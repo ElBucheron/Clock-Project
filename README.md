@@ -30,12 +30,4 @@ Then using the commands:
 
 ## Colors
 
-* 0 noir
-* 1 blanc
-* 2 jaune
-* 3 orange
-* 4 rouge
-* 5 violet
-* 6 bleu clair
-* 7 bleu
-* 8 vert
+The colors are written in hexadecimal before beeing converted on an RGB format inside the code
