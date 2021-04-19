@@ -21,7 +21,7 @@ num_pixels = 256
 # For RGBW NeoPixels, simply change the ORDER to RGBW or GRBW.
 ORDER = neopixel.GRB
 
-pixels = neopixel.NeoPixel(pixel_pin, num_pixels, brightness=0.5, auto_write=False,
+pixels = neopixel.NeoPixel(pixel_pin, num_pixels, brightness=0.1, auto_write=False,
                            pixel_order=ORDER)
 
 default = ["#000000", "#FA7921"]
@@ -46,20 +46,28 @@ TABLEAU_SNOW = []
 TABLEAU_HORLOGE = []
 TABLEAU_SNOW = []
 showing = 'TABLEAU_HORLOGE'
+MODE_BRIGHT = 'DAY'
 
 def hex_to_rgb(value):
+    global MODE_BRIGHT
+
     value = value.lstrip('#')
     lv = len(value)
-    return tuple(int(value[i:i+lv//3], 16) for i in range(0, lv, lv//3))
 
-def horloge():
+    if MODE_BRIGHT == 'DAY':
+        rgb_values = tuple(int(value[i:i+lv//3], 16) for i in range(0, lv, lv//3))
+    elif MODE_BRIGHT == 'EVENING':
+        rgb_values = tuple(int(int(value[i:i+lv//3], 16)/2) for i in range(0, lv, lv//3))
+    elif MODE_BRIGHT == 'NIGHT':
+        rgb_values = tuple(int(int(value[i:i+lv//3], 16)/10) for i in range(0, lv, lv//3))
+
+    return rgb_values
+
+def horloge(heure, minutes):
     global default
     global TABLEAU_HORLOGE
 
     "Affichage de l'heure"
-    tz = pendulum.timezone('Europe/Paris')
-    heure = dt.datetime.now(tz).hour
-    minutes = dt.datetime.now(tz).minute
     if(heure > 9):
         heure1 = heure // 10 ** int(math.log(heure, 10))
         heure2 = heure % 10
@@ -119,10 +127,12 @@ def blinking():
 
 def tableauVersLEDS():
     global COULEURS
-    global TABLEAU_LEDS
+    #global TABLEAU_LEDS
+    global TABLEAU_HORLOGE
 
     #if(showing == 'TABLEAU_HORLOGE'):
-    tab = TABLEAU_LEDS
+    #tab = TABLEAU_LEDS
+    tab = TABLEAU_HORLOGE
     #else:
         #tab = TABLEAU_SNOW
 
@@ -255,30 +265,54 @@ if(__name__ == '__main__'):
         initTableauHorloge()
         initTableauSnow()
         initTableauLeds()
-        horloge()
+        
+        tz = pendulum.timezone('Europe/Paris')
+        
+        #heure = dt.datetime.now(tz).hour
+        #minutes = dt.datetime.now(tz).minute
+        
+        #horloge(heure, minutes)
+        #tableauVersLEDS()
 
-        changeHeure = 0
+        changeHeure = int
         while True:
-            minutes = dt.datetime.now().minute
+
+            heure = dt.datetime.now(tz).hour
+            minutes = dt.datetime.now(tz).minute
+    
             minutesNow = minutes % 10
 
             if(minutesNow != changeHeure):
                 #initBackground()
-                horloge()
+                if(MODE_BRIGHT == 'DAY'):
+                    if(heure >= 19 and heure < 23):
+                        MODE_BRIGHT = 'EVENING'
+
+                elif(MODE_BRIGHT == 'EVENING'):
+                    if(heure >= 23 or heure < 8):
+                        MODE_BRIGHT = 'NIGHT'
+                    
+                elif(MODE_BRIGHT == 'NIGHT'):
+                        if(heure >= 8 and heure < 19):
+                            MODE_BRIGHT = 'DAY'
+
+                horloge(heure, minutes)
                 changeHeure = minutesNow
 
-                if minutesNow == 0:
-                    CLEARED = False
+                tableauVersLEDS()
+                
+                #if minutesNow == 0:
+                #    CLEARED = False
             
-            if CLEARED == False:
-                removeSnowLine()
+            #if CLEARED == False:
+            #    removeSnowLine()
 
 
-            snow()
-            tableauVersLEDS()
+            #snow()
+            #tableauVersLEDS()
             #blinking()
             #time.sleep(uniform(0.1, 0.4))
-            time.sleep(0.4)
+            time.sleep(1)
 
     except KeyboardInterrupt:
         terminateProcess(0,0)
