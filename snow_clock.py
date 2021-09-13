@@ -42,7 +42,9 @@ PROBA = [16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16
 CLEARED = True
 
 TABLEAU_LEDS = []
+TABLEAU_SNOW = []
 TABLEAU_HORLOGE = []
+TABLEAU_SNOW = []
 showing = 'TABLEAU_HORLOGE'
 MODE_BRIGHT = 'DAY'
 
@@ -57,8 +59,6 @@ def hex_to_rgb(value):
     elif MODE_BRIGHT == 'EVENING':
         rgb_values = tuple(int(int(value[i:i+lv//3], 16)/2) for i in range(0, lv, lv//3))
     elif MODE_BRIGHT == 'NIGHT':
-        rgb_values = tuple(int(int(value[i:i+lv//3], 16)/10) for i in range(0, lv, lv//3))
-    elif MODE_BRIGHT == 'OFF':
         rgb_values = tuple(int(int(value[i:i+lv//3], 16)/10) for i in range(0, lv, lv//3))
 
     return rgb_values
@@ -92,24 +92,49 @@ def horloge(heure, minutes):
         for i in range(coord, coord+3):
             for j in range(1, 6):
                 TABLEAU_HORLOGE[i][j] = afficheCiffre[x][y]
+                #TABLEAU_SNOW[i][j] = afficheCiffre[x][y]
                 y = y + 1
             x = x + 1
             y = 0
         if (k == 1):
             coord += 4
+            #TABLEAU_HORLOGE[coord][1] = default[1]
+            #TABLEAU_HORLOGE[coord][2] = default[1]
+            #TABLEAU_HORLOGE[coord][4] = default[1]
+            #TABLEAU_HORLOGE[coord][5] = default[1]
             coord += 1
+            #TABLEAU_HORLOGE[coord][1] = default[1]
+            #TABLEAU_HORLOGE[coord][2] = default[1]
+            #TABLEAU_HORLOGE[coord][4] = default[1]
+            #TABLEAU_HORLOGE[coord][5] = default[1]
             
+            #TABLEAU_SNOW[coord][2] = 2
+            #TABLEAU_SNOW[coord][4] = 2
             coord += 2
         else:
             coord += 4
     
+
+def blinking():
+    global showing
+
+    if(showing == 'TABLEAU_HORLOGE'):
+        showing = 'TABLEAU_SNOW'
+    else:
+        showing = 'TABLEAU_HORLOGE'
+    tableauVersLEDS()
+
 
 def tableauVersLEDS():
     global COULEURS
     #global TABLEAU_LEDS
     global TABLEAU_HORLOGE
 
+    #if(showing == 'TABLEAU_HORLOGE'):
+    #tab = TABLEAU_LEDS
     tab = TABLEAU_HORLOGE
+    #else:
+        #tab = TABLEAU_SNOW
 
     i = 0
     led = 0
@@ -125,6 +150,57 @@ def tableauVersLEDS():
         i = i + 1
 
     pixels.show()
+
+
+def removeSnowLine():
+    global TABLEAU_SNOW
+    global PROBA
+    
+    for i in range(32):
+        for j in reversed(range(1,8)):
+            TABLEAU_SNOW[i][j] = TABLEAU_SNOW[i][j-1]
+        TABLEAU_SNOW[i][0] = default[0]
+    for idx, val in enumerate(PROBA):
+        if val < 10:
+            PROBA[idx] += 2
+    
+
+
+def snow():
+    global TABLEAU_HORLOGE
+    global TABLEAU_SNOW
+    global TABLEAU_LEDS
+    global PROBA
+    global CLEARED
+
+    initTableauLeds()
+
+    removeLine = 0
+    for i in range(32):
+        if(TABLEAU_SNOW[i][7] != default[0]):
+            removeLine += 1
+        for j in reversed(range(1,8)):
+            #if(TABLEAU_SNOW[i][j] == 0):
+            if(TABLEAU_SNOW[i][j-1] != default[0] and TABLEAU_SNOW[i][j] == default[0]):
+                TABLEAU_SNOW[i][j] = TABLEAU_SNOW[i][j-1]
+                TABLEAU_SNOW[i][j-1] = default[0]
+    
+    if removeLine == 0:
+        CLEARED = True
+
+    #removeSnowLine()
+
+    num = randrange(32)
+    if(randrange(100) < PROBA[num]):
+        TABLEAU_SNOW[num][0] = "#00C9FF"
+        PROBA[num] -= 2
+    
+    for i in range(32):
+        for j in range(8):
+            if(TABLEAU_HORLOGE[i][j] == default[0]):
+                TABLEAU_LEDS[i][j] = TABLEAU_SNOW[i][j]
+            else:
+                TABLEAU_LEDS[i][j] = TABLEAU_HORLOGE[i][j]
 
 
 def initTableauLeds():
@@ -144,6 +220,15 @@ def initTableauHorloge():
     for i in range(32):
     	TABLEAU_HORLOGE.append([default[0],default[0],default[0],default[0],default[0],default[0],default[0],default[0]])
 
+
+def initTableauSnow():
+    global TABLEAU_SNOW
+    global default
+    
+    TABLEAU_SNOW = []
+    for i in range(32):
+    	TABLEAU_SNOW.append([default[0],default[0],default[0],default[0],default[0],default[0],default[0],default[0]])
+    
     
 def initBackground():
     print("Choosing background...")
@@ -200,18 +285,14 @@ if(__name__ == '__main__'):
             if(minutesNow != changeHeure):
                 #initBackground()
                 if(MODE_BRIGHT == 'DAY'):
-                    if(heure >= 18 and heure < 21):
+                    if(heure >= 19 and heure < 23):
                         MODE_BRIGHT = 'EVENING'
 
                 elif(MODE_BRIGHT == 'EVENING'):
-                    if(heure >= 21):
+                    if(heure >= 23 or heure < 8):
                         MODE_BRIGHT = 'NIGHT'
-                
+                    
                 elif(MODE_BRIGHT == 'NIGHT'):
-                    if(heure >= 0 and heure < 8)
-                        MODE_BRIGHT = 'OFF'
-
-                elif(MODE_BRIGHT == 'OFF'):
                         if(heure >= 8 and heure < 19):
                             MODE_BRIGHT = 'DAY'
 
@@ -220,7 +301,16 @@ if(__name__ == '__main__'):
 
                 tableauVersLEDS()
                 
+                #if minutesNow == 0:
+                #    CLEARED = False
+            
+            #if CLEARED == False:
+            #    removeSnowLine()
+
+
+            #snow()
             #tableauVersLEDS()
+            #blinking()
             #time.sleep(uniform(0.1, 0.4))
             time.sleep(1)
 
