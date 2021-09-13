@@ -38,12 +38,8 @@ HUIT = [[default[1],default[1],default[1],default[1],default[1]],[default[1],def
 NEUF = [[default[1],default[1],default[1],default[1],default[1]],[default[1],default[0],default[1],default[0],default[1]],[default[1],default[1],default[1],default[0],default[1]]]
 CHIFFRE = [ZERO,UN,DEUX,TROIS,QUATRE,CINQ,SIX,SEPT,HUIT,NEUF]
 
-PROBA = [16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16]
-CLEARED = True
-
 TABLEAU_LEDS = []
 TABLEAU_HORLOGE = []
-showing = 'TABLEAU_HORLOGE'
 MODE_BRIGHT = 'DAY'
 
 def hex_to_rgb(value):
@@ -59,7 +55,7 @@ def hex_to_rgb(value):
     elif MODE_BRIGHT == 'NIGHT':
         rgb_values = tuple(int(int(value[i:i+lv//3], 16)/10) for i in range(0, lv, lv//3))
     elif MODE_BRIGHT == 'OFF':
-        rgb_values = tuple(int(int(value[i:i+lv//3], 16)/10) for i in range(0, lv, lv//3))
+        initTableauHorloge()
 
     return rgb_values
 
@@ -197,7 +193,7 @@ if(__name__ == '__main__'):
     
             minutesNow = minutes % 10
 
-            if(minutesNow != changeHeure):
+            if(heure != changeHeure):
                 #initBackground()
                 if(MODE_BRIGHT == 'DAY'):
                     if(heure >= 18 and heure < 21):
@@ -215,11 +211,13 @@ if(__name__ == '__main__'):
                         if(heure >= 8 and heure < 19):
                             MODE_BRIGHT = 'DAY'
 
-                horloge(heure, minutes)
-                changeHeure = minutesNow
+                changeHeure = heure
 
+            if(minutesNow != changeMinute and MODE_BRIGHT != 'OFF'):
+                horloge(heure, minutes)
                 tableauVersLEDS()
-                
+                changeMinute = minutesNow
+
             #tableauVersLEDS()
             #time.sleep(uniform(0.1, 0.4))
             time.sleep(1)
