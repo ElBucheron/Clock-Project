@@ -176,7 +176,6 @@ if(__name__ == '__main__'):
 
         print("Reinitialisation des tableaux...")
         initTableauHorloge()
-        initTableauSnow()
         initTableauLeds()
         
         tz = pendulum.timezone('Europe/Paris')
