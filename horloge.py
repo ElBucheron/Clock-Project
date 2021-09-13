@@ -187,6 +187,7 @@ if(__name__ == '__main__'):
         #tableauVersLEDS()
 
         changeHeure = int
+        changeMinute = int
         while True:
 
             heure = dt.datetime.now(tz).hour
