@@ -55,7 +55,7 @@ def hex_to_rgb(value):
     elif MODE_BRIGHT == 'NIGHT':
         rgb_values = tuple(int(int(value[i:i+lv//3], 16)/10) for i in range(0, lv, lv//3))
     elif MODE_BRIGHT == 'OFF':
-        initTableauHorloge()
+        turnOffLeds()
 
     return rgb_values
 
@@ -158,10 +158,12 @@ def initBackground():
         idx += 1
     f.close()
 
-
-def terminateProcess(signalNumber, frame):
+def turnOffLeds():
     pixels.fill((0, 0, 0))
     pixels.show()
+
+def terminateProcess(signalNumber, frame):
+    turnOffLeds()
     exit(0)
 
 
@@ -204,7 +206,7 @@ if(__name__ == '__main__'):
                         MODE_BRIGHT = 'NIGHT'
                 
                 elif(MODE_BRIGHT == 'NIGHT'):
-                    if(heure >= 0 and heure < 8)
+                    if(heure >= 0 and heure < 8):
                         MODE_BRIGHT = 'OFF'
 
                 elif(MODE_BRIGHT == 'OFF'):
