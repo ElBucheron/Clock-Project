@@ -38,7 +38,6 @@ HUIT = [[default[1],default[1],default[1],default[1],default[1]],[default[1],def
 NEUF = [[default[1],default[1],default[1],default[1],default[1]],[default[1],default[0],default[1],default[0],default[1]],[default[1],default[1],default[1],default[0],default[1]]]
 CHIFFRE = [ZERO,UN,DEUX,TROIS,QUATRE,CINQ,SIX,SEPT,HUIT,NEUF]
 
-TABLEAU_LEDS = []
 TABLEAU_HORLOGE = []
 MODE_BRIGHT = 'DAY'
 
@@ -54,8 +53,6 @@ def hex_to_rgb(value):
         rgb_values = tuple(int(int(value[i:i+lv//3], 16)/2) for i in range(0, lv, lv//3))
     elif MODE_BRIGHT == 'NIGHT':
         rgb_values = tuple(int(int(value[i:i+lv//3], 16)/10) for i in range(0, lv, lv//3))
-    elif MODE_BRIGHT == 'OFF':
-        turnOffLeds()
 
     return rgb_values
 
@@ -102,7 +99,6 @@ def horloge(heure, minutes):
 
 def tableauVersLEDS():
     global COULEURS
-    #global TABLEAU_LEDS
     global TABLEAU_HORLOGE
 
     tab = TABLEAU_HORLOGE
@@ -121,16 +117,6 @@ def tableauVersLEDS():
         i = i + 1
 
     pixels.show()
-
-
-def initTableauLeds():
-    global TABLEAU_LEDS
-    global default
-   
-    TABLEAU_LEDS = []
-    for i in range(32):
-    	TABLEAU_LEDS.append([default[0],default[0],default[0],default[0],default[0],default[0],default[0],default[0]])
-
 
 def initTableauHorloge():
     global TABLEAU_HORLOGE
@@ -208,6 +194,8 @@ if(__name__ == '__main__'):
                 elif(MODE_BRIGHT == 'NIGHT'):
                     if(heure >= 0 and heure < 8):
                         MODE_BRIGHT = 'OFF'
+                        initTableauHorloge()
+                        turnOffLeds()
 
                 elif(MODE_BRIGHT == 'OFF'):
                         if(heure >= 8 and heure < 19):
@@ -220,7 +208,6 @@ if(__name__ == '__main__'):
                 tableauVersLEDS()
                 changeMinute = minutesNow
 
-            #tableauVersLEDS()
             #time.sleep(uniform(0.1, 0.4))
             time.sleep(1)
 
