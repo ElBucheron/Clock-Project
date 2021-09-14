@@ -162,7 +162,6 @@ if(__name__ == '__main__'):
 
         print("Reinitialisation des tableaux...")
         initTableauHorloge()
-        initTableauLeds()
         
         tz = pendulum.timezone('Europe/Paris')
         
