@@ -39,7 +39,22 @@ NEUF = [[default[1],default[1],default[1],default[1],default[1]],[default[1],def
 CHIFFRE = [ZERO,UN,DEUX,TROIS,QUATRE,CINQ,SIX,SEPT,HUIT,NEUF]
 
 TABLEAU_HORLOGE = []
-MODE_BRIGHT = 'DAY'
+
+
+tz = pendulum.timezone('Europe/Paris')
+heure = dt.datetime.now(tz).hour
+
+if(heure >= 20):
+    MODE_BRIGHT = 'NIGHT'
+elif(heure >= 16):
+    MODE_BRIGHT = 'EVENING'
+elif(heure >= 9):
+    MODE_BRIGHT = 'DAY'
+elif(heure >= 7):
+    MODE_BRIGHT = 'MORNING'
+else:
+    MODE_BRIGHT = 'OFF'
+print(MODE_BRIGHT)
 
 def hex_to_rgb(value):
     global MODE_BRIGHT
@@ -49,6 +64,8 @@ def hex_to_rgb(value):
 
     if MODE_BRIGHT == 'DAY':
         rgb_values = tuple(int(value[i:i+lv//3], 16) for i in range(0, lv, lv//3))
+    elif MODE_BRIGHT == 'MORNING':
+        rgb_values = tuple(int(int(value[i:i+lv//3], 16)/2) for i in range(0, lv, lv//3))
     elif MODE_BRIGHT == 'EVENING':
         rgb_values = tuple(int(int(value[i:i+lv//3], 16)/2) for i in range(0, lv, lv//3))
     elif MODE_BRIGHT == 'NIGHT':
@@ -91,11 +108,11 @@ def horloge(heure, minutes):
         if (k == 1):
             coord += 4
             coord += 1
-            
+
             coord += 2
         else:
             coord += 4
-    
+
 
 def tableauVersLEDS():
     global COULEURS
@@ -121,16 +138,16 @@ def tableauVersLEDS():
 def initTableauHorloge():
     global TABLEAU_HORLOGE
     global default
-   
+
     TABLEAU_HORLOGE = []
     for i in range(32):
     	TABLEAU_HORLOGE.append([default[0],default[0],default[0],default[0],default[0],default[0],default[0],default[0]])
 
-    
+
 def initBackground():
     print("Choosing background...")
     num = str(randrange(1,3))
-    
+
     f = open("/root/Clock-Project/Backgrounds/" + num + ".txt", "r")
 
     idx = 0
@@ -162,12 +179,12 @@ if(__name__ == '__main__'):
 
         print("Reinitialisation des tableaux...")
         initTableauHorloge()
-        
-        tz = pendulum.timezone('Europe/Paris')
-        
+
+        #tz = pendulum.timezone('Europe/Paris')
+
         #heure = dt.datetime.now(tz).hour
         #minutes = dt.datetime.now(tz).minute
-        
+
         #horloge(heure, minutes)
         #tableauVersLEDS()
 
@@ -177,28 +194,23 @@ if(__name__ == '__main__'):
 
             heure = dt.datetime.now(tz).hour
             minutes = dt.datetime.now(tz).minute
-    
+
             minutesNow = minutes % 10
 
             if(heure != changeHeure):
                 #initBackground()
-                if(MODE_BRIGHT == 'DAY'):
-                    if(heure >= 18 and heure < 21):
-                        MODE_BRIGHT = 'EVENING'
-
-                elif(MODE_BRIGHT == 'EVENING'):
-                    if(heure >= 21):
-                        MODE_BRIGHT = 'NIGHT'
-                
-                elif(MODE_BRIGHT == 'NIGHT'):
-                    if(heure >= 0 and heure < 8):
-                        MODE_BRIGHT = 'OFF'
-                        initTableauHorloge()
-                        turnOffLeds()
-
-                elif(MODE_BRIGHT == 'OFF'):
-                        if(heure >= 8 and heure < 19):
-                            MODE_BRIGHT = 'DAY'
+                if(heure >= 20):
+                    MODE_BRIGHT = 'NIGHT'
+                elif(heure >= 16):
+                    MODE_BRIGHT = 'EVENING'
+                elif(heure >= 9):
+                    MODE_BRIGHT = 'DAY'
+                elif(heure >= 7):
+                    MODE_BRIGHT = 'MORNING'
+                else:
+                    MODE_BRIGHT = 'OFF'
+                    initTableauHorloge()
+                    turnOffLeds()
 
                 changeHeure = heure
 
