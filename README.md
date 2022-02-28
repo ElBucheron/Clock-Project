@@ -5,6 +5,7 @@
 - Raspberry pi
 - Led pannel (8x32)
 - [Adafruit](https://learn.adafruit.com/adafruit-neopixel-uberguide/python-circuitpython)
+- Enable SPI on the pi configs
 
 Python modules:
 - pendulum
