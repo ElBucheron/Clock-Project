@@ -6,6 +6,9 @@
 - Led pannel (8x32)
 - [Adafruit](https://learn.adafruit.com/adafruit-neopixel-uberguide/python-circuitpython)
 
+Python modules:
+- pendulum
+
 ## To add as a startup service
 In /lib/systemd/system, create a file `horloge.service` with:
 ```
