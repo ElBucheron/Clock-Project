@@ -8,7 +8,8 @@
 - Enable SPI on the pi configs
 
 Python modules:
-- pendulum
+- pip3 install pendulum
+- pip3 install adafruit-circuitpython-neopixel
 
 ## To add as a startup service
 In /lib/systemd/system, create a file `horloge.service` with:
