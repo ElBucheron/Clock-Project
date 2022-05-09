@@ -308,11 +308,11 @@ if(__name__ == '__main__'):
             #    removeSnowLine()
 
 
-            #snow()
-            #tableauVersLEDS()
-            #blinking()
-            #time.sleep(uniform(0.1, 0.4))
-            time.sleep(1)
+            snow()
+            tableauVersLEDS()
+            blinking()
+            time.sleep(uniform(0.1, 0.4))
+            #time.sleep(1)
 
     except KeyboardInterrupt:
         terminateProcess(0,0)

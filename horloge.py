@@ -1,4 +1,5 @@
 # Simple test for NeoPixels on Raspberry Pi
+import sys
 import time
 import board
 import neopixel
@@ -50,7 +51,7 @@ elif(heure >= 16):
     MODE_BRIGHT = 'EVENING'
 elif(heure >= 9):
     MODE_BRIGHT = 'DAY'
-elif(heure >= 7):
+elif(heure >= 6):
     MODE_BRIGHT = 'MORNING'
 else:
     MODE_BRIGHT = 'OFF'
@@ -190,7 +191,14 @@ if(__name__ == '__main__'):
 
         changeHeure = int
         changeMinute = int
-        while True:
+        
+        heure = dt.datetime.now(tz).hour
+        minutes = dt.datetime.now(tz).minute
+        
+        #horloge(heure, minutes)
+        #tableauVersLEDS()
+
+        while(heure != sys.argv[1]):
 
             heure = dt.datetime.now(tz).hour
             minutes = dt.datetime.now(tz).minute
@@ -199,18 +207,14 @@ if(__name__ == '__main__'):
 
             if(heure != changeHeure):
                 #initBackground()
-                if(heure >= 20):
+                if(heure >= 22):
                     MODE_BRIGHT = 'NIGHT'
-                elif(heure >= 16):
+                elif(heure >= 20):
                     MODE_BRIGHT = 'EVENING'
                 elif(heure >= 9):
                     MODE_BRIGHT = 'DAY'
-                elif(heure >= 7):
+                elif(heure >= 6):
                     MODE_BRIGHT = 'MORNING'
-                else:
-                    MODE_BRIGHT = 'OFF'
-                    initTableauHorloge()
-                    turnOffLeds()
 
                 changeHeure = heure
 
@@ -219,7 +223,6 @@ if(__name__ == '__main__'):
                 tableauVersLEDS()
                 changeMinute = minutesNow
 
-            #time.sleep(uniform(0.1, 0.4))
             time.sleep(1)
 
     except KeyboardInterrupt:
