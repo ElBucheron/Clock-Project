@@ -5,6 +5,11 @@
 - Raspberry pi
 - Led pannel (8x32)
 - [Adafruit](https://learn.adafruit.com/adafruit-neopixel-uberguide/python-circuitpython)
+- Enable SPI on the pi configs
+
+Python modules:
+- pip3 install pendulum
+- pip3 install adafruit-circuitpython-neopixel
 
 ## To add as a startup service
 In /lib/systemd/system, create a file `horloge.service` with:
