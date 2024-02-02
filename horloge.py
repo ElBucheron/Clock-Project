@@ -51,10 +51,8 @@ elif(heure >= 16):
     MODE_BRIGHT = 'EVENING'
 elif(heure >= 9):
     MODE_BRIGHT = 'DAY'
-elif(heure >= 6):
-    MODE_BRIGHT = 'MORNING'
 else:
-    MODE_BRIGHT = 'OFF'
+    MODE_BRIGHT = 'MORNING'
 print(MODE_BRIGHT)
 
 def hex_to_rgb(value):
@@ -195,10 +193,10 @@ if(__name__ == '__main__'):
         heure = dt.datetime.now(tz).hour
         minutes = dt.datetime.now(tz).minute
         
-        #horloge(heure, minutes)
-        #tableauVersLEDS()
-
-        while(heure != sys.argv[1]):
+        horloge(heure, minutes)
+        tableauVersLEDS()
+        
+        while(heure != int(sys.argv[1])):
 
             heure = dt.datetime.now(tz).hour
             minutes = dt.datetime.now(tz).minute
@@ -213,7 +211,7 @@ if(__name__ == '__main__'):
                     MODE_BRIGHT = 'EVENING'
                 elif(heure >= 9):
                     MODE_BRIGHT = 'DAY'
-                elif(heure >= 6):
+                else:
                     MODE_BRIGHT = 'MORNING'
 
                 changeHeure = heure
@@ -224,6 +222,7 @@ if(__name__ == '__main__'):
                 changeMinute = minutesNow
 
             time.sleep(1)
-
+        terminateProcess(0,0)
+    
     except KeyboardInterrupt:
         terminateProcess(0,0)

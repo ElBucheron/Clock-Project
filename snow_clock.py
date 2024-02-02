@@ -131,8 +131,8 @@ def tableauVersLEDS():
     global TABLEAU_HORLOGE
 
     #if(showing == 'TABLEAU_HORLOGE'):
-    #tab = TABLEAU_LEDS
-    tab = TABLEAU_HORLOGE
+    tab = TABLEAU_LEDS
+    #tab = TABLEAU_HORLOGE
     #else:
         #tab = TABLEAU_SNOW
 
@@ -188,10 +188,10 @@ def snow():
     if removeLine == 0:
         CLEARED = True
 
-    #removeSnowLine()
+    removeSnowLine()
 
-    num = randrange(32)
-    if(randrange(100) < PROBA[num]):
+    if(randrange(100) < 10):
+        num = randrange(32)
         TABLEAU_SNOW[num][0] = "#00C9FF"
         PROBA[num] -= 2
     
@@ -310,8 +310,8 @@ if(__name__ == '__main__'):
 
             snow()
             tableauVersLEDS()
-            blinking()
-            time.sleep(uniform(0.1, 0.4))
+            #blinking()
+            time.sleep(uniform(0.2, 1))
             #time.sleep(1)
 
     except KeyboardInterrupt:
