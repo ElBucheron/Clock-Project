@@ -97,13 +97,13 @@ def horloge(heure, minutes):
     coord_j = 1
     for k in range(4):
         afficheChiffre = CHIFFRE[afficheHeure[k]]
-        x = 0
+        x = 2
         for j in range(coord_j, coord_j+3):
-            y = 0
+            y = 4
             for i in range(coord_i, coord_i+5):
                 TABLEAU_HORLOGE[i][j] = afficheChiffre[x][y]
-                y = y + 1
-            x = x + 1
+                y -= 1
+            x -= 1
         if (k == 0):
             coord_i = 2
             coord_j = 4
@@ -125,13 +125,13 @@ def tableauVersLEDS():
     while i < 31:
         for j in reversed(range(8)):
             pixels[led] = hex_to_rgb(tab[i][j])
-            led = led + 1
-        i = i + 1
+            led += 1
+        i += 1
 
         for j in range(8):
             pixels[led] = hex_to_rgb(tab[i][j])
-            led = led + 1
-        i = i + 1
+            led += 1
+        i += 1
 
     pixels.show()
 
