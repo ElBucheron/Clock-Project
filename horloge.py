@@ -105,13 +105,13 @@ def horloge(heure, minutes):
                 x = x + 1
             y = y + 1
             x = 0
-        if (k == 2):
+        if (k == 0):
             coord_i = 1
             coord_j = 4
-        elif (k == 3):
+        elif (k == 1):
             coord_i = 7
             coord_j = 1
-        elif (k == 4):
+        elif (k == 2):
             coord_i = 7
             coord_j = 4
 
