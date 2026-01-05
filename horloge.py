@@ -47,7 +47,7 @@ heure = dt.datetime.now(tz).hour
 
 if(heure >= 20):
     MODE_BRIGHT = 'NIGHT'
-elif(heure >= 16):
+elif(heure >= 18):
     MODE_BRIGHT = 'EVENING'
 elif(heure >= 9):
     MODE_BRIGHT = 'DAY'
@@ -93,25 +93,27 @@ def horloge(heure, minutes):
     afficheHeure = [minute2, minute1, heure2, heure1]
     #print("Heure:", afficheHeure)
 
-    coord = 7
+    coord_i = 1
+    coord_j = 1
     for k in range(4):
-        afficheCiffre = CHIFFRE[afficheHeure[k]]
+        afficheChiffre = CHIFFRE[afficheHeure[k]]
         x = 0
         y = 0
-        for i in range(coord, coord+3):
-            for j in range(1, 6):
-                TABLEAU_HORLOGE[i][j] = afficheCiffre[x][y]
-                y = y + 1
-            x = x + 1
-            y = 0
+        for i in range(coord_i, coord_i+5):
+            for j in range(coord_j, coord_j+3):
+                TABLEAU_HORLOGE[i][j] = afficheChiffre[x][y]
+                x = x + 1
+            y = y + 1
+            x = 0
         if (k == 1):
-            coord += 4
-            coord += 1
-
-            coord += 2
-        else:
-            coord += 4
-
+            coord_i = 1
+            coord_j = 4
+        elif (k == 2):
+            coord_i = 7
+            coord_j = 1
+        elif (k == 3):
+            coord_i = 7
+            coord_j = 4
 
 def tableauVersLEDS():
     global COULEURS
