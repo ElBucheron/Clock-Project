@@ -122,6 +122,11 @@ def tableauVersLEDS():
     i = 0
     led = 0
     while i < 31:
+        for j in reversed(range(8)):
+            pixels[led] = hex_to_rgb(TABLEAU_HORLOGE[i][j])
+            led = led + 1
+        i = i + 1
+
         for j in range(8):
             pixels[led] = hex_to_rgb(TABLEAU_HORLOGE[i][j])
             led = led + 1
