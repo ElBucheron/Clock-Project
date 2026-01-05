@@ -193,10 +193,9 @@ if(__name__ == '__main__'):
         heure = dt.datetime.now(tz).hour
         minutes = dt.datetime.now(tz).minute
         
-        horloge(heure, minutes)
-        tableauVersLEDS()
-        
         while(heure != int(sys.argv[1])):
+            #horloge(heure, minutes)
+            #tableauVersLEDS()
 
             heure = dt.datetime.now(tz).hour
             minutes = dt.datetime.now(tz).minute
@@ -205,9 +204,9 @@ if(__name__ == '__main__'):
 
             if(heure != changeHeure):
                 #initBackground()
-                if(heure >= 22):
+                if(heure >= 20):
                     MODE_BRIGHT = 'NIGHT'
-                elif(heure >= 20):
+                elif(heure >= 18):
                     MODE_BRIGHT = 'EVENING'
                 elif(heure >= 9):
                     MODE_BRIGHT = 'DAY'
@@ -222,7 +221,8 @@ if(__name__ == '__main__'):
                 changeMinute = minutesNow
 
             time.sleep(1)
-        terminateProcess(0,0)
+        initTableauHorloge()
+        tableauVersLEDS()
     
     except KeyboardInterrupt:
         terminateProcess(0,0)
