@@ -90,8 +90,7 @@ def horloge(heure, minutes):
         minute1 = 0
         minute2 = minutes
 
-    afficheHeure = [minute2, minute1, heure2, heure1]
-    #print("Heure:", afficheHeure)
+    afficheHeure = [heure1, heure2, minute1, minute2]
 
     coord_i = 1
     coord_j = 1
@@ -99,10 +98,10 @@ def horloge(heure, minutes):
         afficheChiffre = CHIFFRE[afficheHeure[k]]
         x = 0
         for j in range(coord_j, coord_j+3):
-            y = 4
+            y = 0
             for i in range(coord_i, coord_i+5):
                 TABLEAU_HORLOGE[i][j] = afficheChiffre[x][y]
-                y -= 1
+                y += 1
             x += 1
         if (k == 0):
             coord_i = 2
