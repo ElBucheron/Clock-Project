@@ -92,9 +92,20 @@ def horloge(heure, minutes):
 
     afficheHeure = [heure1, heure2, minute1, minute2]
 
-    coord_i = 5
-    coord_j = 0
     for k in range(4):
+        if (k == 0):
+            coord_i = 8
+            coord_j = 0
+        elif (k == 1):
+            coord_i = 8
+            coord_j = 4
+        elif (k == 2):
+            coord_i = 15
+            coord_j = 1
+        elif (k == 3):
+            coord_i = 15
+            coord_j = 5
+
         afficheChiffre = CHIFFRE[afficheHeure[k]]
         x = 2
         for j in range(coord_j, coord_j+3):
@@ -103,15 +114,6 @@ def horloge(heure, minutes):
                 TABLEAU_HORLOGE[i][j] = afficheChiffre[x][y]
                 y += 1
             x -= 1
-        if (k == 0):
-            coord_i = 5
-            coord_j = 4
-        elif (k == 1):
-            coord_i = 11
-            coord_j = 1
-        elif (k == 2):
-            coord_i = 11
-            coord_j = 5
 
 def tableauVersLEDS():
     global TABLEAU_HORLOGE
