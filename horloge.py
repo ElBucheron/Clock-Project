@@ -94,7 +94,7 @@ def horloge(heure, minutes):
     #print("Heure:", afficheHeure)
 
     coord_i = 1
-    coord_j = 0
+    coord_j = 1
     for k in range(4):
         afficheChiffre = CHIFFRE[afficheHeure[k]]
         x = 0
@@ -107,15 +107,15 @@ def horloge(heure, minutes):
         if (k == 0):
             print("k == 0")
             coord_i = 1
-            coord_j = 5
+            coord_j = 4
         elif (k == 1):
             print("k == 1")
             coord_i = 8
-            coord_j = 0
+            coord_j = 1
         elif (k == 2):
             print("k == 2")
             coord_i = 8
-            coord_j = 5
+            coord_j = 4
 
 def tableauVersLEDS():
     global COULEURS
