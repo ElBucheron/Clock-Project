@@ -94,17 +94,17 @@ def horloge(heure, minutes):
 
     for k in range(4):
         if (k == 0):
-            coord_i = 5
-            coord_j = 0
+            coord_i = 10
+            coord_j = 1
         elif (k == 1):
-            coord_i = 5
+            coord_i = 10
             coord_j = 4
         elif (k == 2):
-            coord_i = 18
+            coord_i = 16
             coord_j = 1
         elif (k == 3):
-            coord_i = 18
-            coord_j = 5
+            coord_i = 16
+            coord_j = 4
 
         afficheChiffre = CHIFFRE[afficheHeure[k]]
         x = 2
