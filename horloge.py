@@ -96,13 +96,13 @@ def horloge(heure, minutes):
     coord_j = 1
     for k in range(4):
         afficheChiffre = CHIFFRE[afficheHeure[k]]
-        x = 0
+        x = 2
         for j in range(coord_j, coord_j+3):
-            y = 4
+            y = 0
             for i in range(coord_i, coord_i+5):
                 TABLEAU_HORLOGE[i][j] = afficheChiffre[x][y]
-                y -= 1
-            x += 1
+                y += 1
+            x -= 1
         if (k == 0):
             coord_i = 2
             coord_j = 4
