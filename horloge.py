@@ -99,20 +99,20 @@ def horloge(heure, minutes):
         afficheChiffre = CHIFFRE[afficheHeure[k]]
         x = 0
         y = 0
-        for i in range(coord_i, coord_i+5):
-            for j in range(coord_j, coord_j+3):
+        for j in range(coord_j, coord_j+3):
+            for i in range(coord_i, coord_i+5):
                 TABLEAU_HORLOGE[i][j] = afficheChiffre[x][y]
-                x = x + 1
-            y = y + 1
+                y = y + 1
+            x = x + 1
             x = 0
         if (k == 0):
-            coord_i = 1
+            coord_i = 2
             coord_j = 4
         elif (k == 1):
             coord_i = 7
             coord_j = 1
         elif (k == 2):
-            coord_i = 7
+            coord_i = 8
             coord_j = 4
 
 def tableauVersLEDS():
