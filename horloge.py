@@ -105,13 +105,13 @@ def horloge(heure, minutes):
                 y -= 1
             x += 1
         if (k == 0):
-            coord_i = 2
+            coord_i = 3
             coord_j = 4
         elif (k == 1):
-            coord_i = 7
+            coord_i = 8
             coord_j = 1
         elif (k == 2):
-            coord_i = 8
+            coord_i = 9
             coord_j = 4
 
 def tableauVersLEDS():
