@@ -106,11 +106,11 @@ def horloge(heure, minutes):
             x += 1
         if (k == 0):
             print("k == 0")
-            coord_i = 2
+            coord_i = 1
             coord_j = 5
         elif (k == 1):
             print("k == 1")
-            coord_i = 7
+            coord_i = 8
             coord_j = 0
         elif (k == 2):
             print("k == 2")
