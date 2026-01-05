@@ -115,21 +115,20 @@ def horloge(heure, minutes):
             coord_j = 4
 
 def tableauVersLEDS():
-    global COULEURS
     global TABLEAU_HORLOGE
 
-    tab = TABLEAU_HORLOGE
+    print(TABLEAU_HORLOGE)
 
     i = 0
     led = 0
     while i < 31:
         for j in reversed(range(8)):
-            pixels[led] = hex_to_rgb(tab[i][j])
+            pixels[led] = hex_to_rgb(TABLEAU_HORLOGE[i][j])
             led += 1
         i += 1
 
         for j in range(8):
-            pixels[led] = hex_to_rgb(tab[i][j])
+            pixels[led] = hex_to_rgb(TABLEAU_HORLOGE[i][j])
             led += 1
         i += 1
 
