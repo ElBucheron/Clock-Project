@@ -118,18 +118,18 @@ def tableauVersLEDS():
 
     print(TABLEAU_HORLOGE)
 
-    i = 0
+    i = 31
     led = 0
-    while i < 31:
-        for j in reversed(range(8)):
-            pixels[led] = hex_to_rgb(TABLEAU_HORLOGE[i][j])
-            led += 1
-        i += 1
-
+    while i > 0:
         for j in range(8):
             pixels[led] = hex_to_rgb(TABLEAU_HORLOGE[i][j])
             led += 1
-        i += 1
+        i -= 1
+
+        for j in reversed(range(8)):
+            pixels[led] = hex_to_rgb(TABLEAU_HORLOGE[i][j])
+            led += 1
+        i -= 1
 
     pixels.show()
 
