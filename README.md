@@ -28,7 +28,7 @@ After=multi-user.target
 
 [Service]
 Type=idle
-ExecStart=/usr/bin/python3 /root/Clock-Project/horloge.py > /root/Clock-Project/logs.log
+ExecStart=/usr/bin/python3 /root/Clock-Project/horloge.py 0 > /root/Clock-Project/logs.log
 
 [Install]
 WantedBy=multi-user.target
